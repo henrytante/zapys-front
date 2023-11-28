@@ -2,7 +2,6 @@
   <div class="header">
     <h2>ZAPYS - Painel</h2>
   </div>
-  <div class="logo"><img src="/logoPAGE.png" alt=""></div>
   <div class="container">
     <select v-model="selectedEndpoint">
       <option value="escolha" style="display: none;" disabled hidden>Escolha:</option>
@@ -11,9 +10,8 @@
       <option value="cpf">CPF - V1</option>
       <option value="cpfv2">CPF - V2</option>
       <option value="cep">CEP - V1 (lento)</option>
-      <option value="foto">Foto - V1</option>
-      <option value="email">Email - V1 </option>
-
+      <option value="foto">Foto</option>
+      <option value="email">Email</option>
     </select>
 
     <div class="components">
@@ -22,29 +20,23 @@
       <button @click="requestData">Enviar</button>
     </div>
 
-    <div class="response-data" v-if="responseData">
-      <div v-if="selectedEndpoint === 'cep'">
-        <p>CEP: {{ responseData.cep }}</p>
-        <p>LOGRADOURO: {{ responseData.logradouro }}</p>
-        <p>COMPLEMENTO: {{ responseData.complemento }}</p>
-        <p>BAIRRO: {{ responseData.bairro }}</p>
-        <p>LOCALIDADE: {{ responseData.localidade }}</p>
-        <p>UF: {{ responseData.uf }}</p>
-        <p>IBGE: {{ responseData.ibge }}</p>
-        <p>GIA: {{ responseData.gia }}</p>
-        <p>DDD: {{ responseData.ddd }}</p>
-        <p>SIAFI: {{ responseData.siafi }}</p>
+    <div v-if="responseData">
+      <div v-if="selectedEndpoint === 'nome'">
+        <p>CPF: {{ responseData[0].cpf }}</p>
+        <p>NOME: {{ responseData[0].nome }}</p>
+        <p>SEXO: {{ responseData[0].sexo }}</p>
+        <p>NASCIMENTO: {{ responseData[0].nascimento }}</p>
       </div>
-      
-      <div v-else-if="selectedEndpoint === 'nome'">
-        <div v-for="(data, index) in responseData" :key="index">
-          <p v-for="(value, key) in data" :key="key">{{ key.toUpperCase() }}: {{ value }}</p>
-        </div>
+      <div v-else-if="selectedEndpoint === 'placa'">
+        jaja
+      </div>
+      <div v-else-if="selectedEndpoint === 'cpf'">
+        <p>CPF: {{ responseData.cpf }}</p>
+        <p>NOME: {{ responseData.nome }}</p>
+        <p>SEXO: {{ responseData.sexo }}</p>
+        <p>NASCIMENTO: {{ responseData.nascimento }}</p>
       </div>
       <div v-else-if="selectedEndpoint === 'cpfv2'">
-        <p>CPF: {{ responseData.cpf }}</p>
-        <p>Nome do Pai: {{ responseData.pai }}</p>
-        <p>Nome da Mãe: {{ responseData.mae }}</p>
         <p>CPF: {{ responseData.cpf }}</p>
         <p>Nome do Pai: {{ responseData.pai }}</p>
         <p>Nome da Mãe: {{ responseData.mae }}</p>
@@ -62,62 +54,16 @@
         <p>Telefone: {{ responseData.telefone }}</p>
         <p>Telefone Secundário: {{ responseData.telefoneSecundario }}</p>
       </div>
-      <div class="response-data" v-else-if="selectedEndpoint === 'placa'">
-        <p>ID: {{ responseData.id }}</p>
-        <p>Data Atualização: {{ responseData.data_atualizacao }}</p>
-        <p>Chassi: {{ responseData.chassi }}</p>
-        <p>Placa: {{ responseData.placa }}</p>
-        <p>Faturado: {{ responseData.faturado }}</p>
-        <p>Ano de Fabricação: {{ responseData.ano_fabricacao }}</p>
-        <p>Município: {{ responseData.municipio }}</p>
-        <p>UF da Placa: {{ responseData.uf_placa }}</p>
-        <p>Marca e Modelo: {{ responseData.marca_modelo }}</p>
-        <p>Combustível: {{ responseData.combustivel }}</p>
-        <p>Potência: {{ responseData.potencia }}</p>
-        <p>Capacidade de Carga: {{ responseData.capacidade_carga }}</p>
-        <p>Nacionalidade: {{ responseData.nacionalidade }}</p>
-        <p>Linha: {{ responseData.linha }}</p>
-        <p>Carroceria: {{ responseData.carroceria }}</p>
-        <p>Caixa de Câmbio: {{ responseData.caixa_cambio }}</p>
-        <p>Eixo Traseiro Diferencial: {{ responseData.eixo_traseiro_dif }}</p>
-        <p>Terceiro Eixo: {{ responseData.terceiro_eixo }}</p>
-        <p>Motor: {{ responseData.motor }}</p>
-        <p>Tipo de Documento do Faturado: {{ responseData.tipo_doc_faturado }}</p>
-        <p>UF do Faturado: {{ responseData.uf_faturado }}</p>
-        <p>Tipo de Documento do Proprietário: {{ responseData.tipo_doc_prop }}</p>
-        <p>Ano do Modelo: {{ responseData.ano_modelo }}</p>
-        <p>Tipo de Veículo: {{ responseData.tipo_veiculo }}</p>
-        <p>Espécie do Veículo: {{ responseData.especie_veiculo }}</p>
-        <p>Tipo de Carroceria: {{ responseData.tipo_carroceria }}</p>
-        <p>Cor do Veículo: {{ responseData.cor_veiculo }}</p>
-        <p>Quantidade de Passageiros: {{ responseData.quantidade_passageiro }}</p>
-        <p>Situação do Chassi: {{ responseData.situacao_chassi }}</p>
-        <p>Eixos: {{ responseData.eixos }}</p>
-        <p>Tipo de Montagem: {{ responseData.tipo_montagem }}</p>
-        <p>Tipo de Documento da Importadora: {{ responseData.tipo_doc_importadora }}</p>
-        <p>Identificação da Importadora: {{ responseData.ident_importadora }}</p>
-        <p>DI: {{ responseData.di }}</p>
-        <p>Registro DI: {{ responseData.registro_di }}</p>
-        <p>Unidade Local SRF: {{ responseData.unidade_local_srf }}</p>
-        <p>Última Atualização: {{ responseData.ultima_atualizacao }}</p>
-        <p>Restrição 1: {{ responseData.restricao_1 }}</p>
-        <p>Restrição 2: {{ responseData.restricao_2 }}</p>
-        <p>Restrição 3: {{ responseData.restricao_3 }}</p>
-        <p>Restrição 4: {{ responseData.restricao_4 }}</p>
-        <p>Limite Restrição Tributária: {{ responseData.limite_restricao_trib }}</p>
-        <p>Cilindradas: {{ responseData.cilindradas }}</p>
-        <p>Capacidade Máxima de Tração: {{ responseData.cap_maxima_tracao }}</p>
-        <p>Peso Bruto Total: {{ responseData.peso_bruto_total }}</p>
-        <p>Situação do Veículo: {{ responseData.situacao_veiculo }}</p>
-        <p>Placa Modelo Antigo: {{ responseData.placa_modelo_antigo }}</p>
-        <p>Placa Modelo Novo: {{ responseData.placa_modelo_novo }}</p>
-        <p>Placa Nova: {{ responseData.placa_nova }}</p>
+      <div v-else-if="selectedEndpoint === 'cep'">
+        <p>CPF: {{ responseData.cpf }}</p>
+        <p>NOME: {{ responseData.nome }}</p>
+        <p>SEXO: {{ responseData.sexo }}</p>
+        <p>NASCIMENTO: {{ responseData.nascimento }}</p>
       </div>
-      <div class="response-data" v-else>
-        <p style="font-weight: bold;">EM BREVE</p>
+      <div v-else>
+        <p style="color: yellow; font-weight: bold;">EM BREVE</p>
       </div>
     </div>
-    
   </div>
 </template>
 
@@ -156,7 +102,7 @@ export default {
       } else if (this.selectedEndpoint === 'cep') {
         apiUrl = `https://api.zapys.xyz/api/v1/cep?token=${this.token}&cep=${this.dado}`;
       }
-      else {
+       else {
         console.log("outro");
       }
 
@@ -244,7 +190,7 @@ input {
   font-weight: 500px;
   font-family: inherit;
   background-color: #1a1a1a;
-  outline: none;
+  outline: none;  
 }
 
 button:hover {
@@ -273,8 +219,8 @@ select {
   cursor: pointer;
   font-weight: bold;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-  width: calc(100% - 24px);
-  margin: 0 auto;
+  width: calc(100% - 24px); 
+  margin: 0 auto; 
 }
 
 select section .escolha {
@@ -291,22 +237,5 @@ select:hover {
 
 select:focus {
   border-color: yellow;
-}
-
-.response-data {
-  margin-top: 20px;
-  padding: 10px;
-  background-color: #1a1a1a;
-  color: yellow;
-  border-radius: 8px;
-  max-height: 300px;
-  /* Tamanho máximo da div */
-  overflow-y: auto;
-  /* Adicionar barra de rolagem vertical quando necessário */
-}
-
-img {
-  max-height: 130px;
-  max-width: 130px;
 }
 </style>
